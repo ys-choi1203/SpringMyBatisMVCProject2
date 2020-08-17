@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.board.boardMapper">
+<sql id="basecolumn">
+	board_num,user_id,board_name,board_pass,board_subject,
+	board_content,board_date,ip_addr,read_count
+</sql>
+<delete id="boardDelete">
+	delete from board where board_num = #{boardNum}
+</delete>
+<update id="boardUpdate" parameterType="board">
+	update board
+	<trim prefix="set" suffixOverrides=",">
+		<if test="boardSubject != null">
+			board_subject = #{boardSubject},
+		</if>
+		<if test="boardContent == null">
+			board_content = null,
+		</if>
+		<if test="boardContent != null">
+			board_content = #{boardContent},
+		</if>
+	</trim>
+	where board_num = #{boardNum}
+</update>
+<insert id="insertBoard" parameterType="board">
+	insert into board (<include refid="basecolumn" />)
+	values(NUM_SEQ.nextval,#{userId},#{boardName},#{boardPass},
+	#{boardSubject},#{boardContent},sysdate,#{ipAddr},0)
+</insert>
+<select id="getBoardCount" resultType="int">
+	select count(*) from board
+</select>
+<resultMap type="board" id="resultBoard">
+	<constructor>
+		<idArg column="board_num" javaType="int" />
+		<idArg column="user_id" javaType="string" />
+		<arg column="board_name" javaType="string"/>
+		<arg column="board_pass" javaType="string"/>
+		<arg column="board_subject" javaType="string"/>
+		<arg column="board_content" javaType="string"/>
+		<arg column="board_date" javaType="java.sql.Timestamp"/>
+		<arg column="ip_addr" javaType="string"/>
+		<arg column="read_count" javaType="int"/>		
+	</constructor>
+</resultMap>
+<select id="getBoardList" parameterType="board" resultMap="resultBoard">
+select *
+from(select rownum rn, <include refid="basecolumn" />
+	from (select <include refid="basecolumn" />
+			from board
+			<trim prefix="where" prefixOverrides="AND | OR">
+				<if test="boardNum != null">
+					board_num = #{boardNum}
+				</if>
+				<if test="userId != null">
+					and user_id = #{userId}
+				</if>
+			</trim>
+			order by board_num desc))
+<where>
+	<if test="startEndPageDTO != null">
+		rn between #{startEndPageDTO.startPage} 
+		   and #{startEndPageDTO.endPage}
+	</if>
+</where>
+</select>
+</mapper>  
+ 

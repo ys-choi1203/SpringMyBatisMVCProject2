@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       ">
+		<!-- 의존 객체 자동 주입 -->
+		<context:annotation-config />
+		<!-- @Controller -->
+		<mvc:annotation-driven />
+		<!-- root 설정 -->
+		<mvc:view-resolvers>
+			<mvc:jsp prefix="/WEB-INF/view/"/>
+			<mvc:jsp suffix=".jsp"/> 
+		</mvc:view-resolvers>
+		<!-- prefix 경로 지정-->
+		<mvc:resources location="/WEB-INF/view/"  mapping="/**"
+				cache-period="14400" />
+		<!-- comntroller없이 사용 -->
+		<mvc:view-controller path="/" view-name="index"/>
+		<!-- file upload을하기 위한  -->
+		<bean id="multipartResolver" 
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<property name="maxUploadSize" value="100000000" />
+			<property name="maxInMemorySize" value="100000000" />
+		</bean>
+		
+		<bean id="bcryptPasswordEncoder " 
+			class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+			<constructor-arg value="10" />
+		</bean>
+		<!-- validate 또는 spring taglib에 필요한 메시지 정의 -->
+		<bean id="messageSource" 
+		class = "org.springframework.context.support.ResourceBundleMessageSource">
+			<property name="basenames">
+				<list>
+					<value>message.label</value>
+					<value>message.error</value>
+				</list>
+			</property>
+			<property name="defaultEncoding" value="UTF-8" />
+		</bean>
+</beans>
