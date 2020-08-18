@@ -31,11 +31,24 @@
 			<property name="maxUploadSize" value="100000000" />
 			<property name="maxInMemorySize" value="100000000" />
 		</bean>
-		
+		<!-- 암호화 -->
 		<bean id="bcryptPasswordEncoder " 
 			class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 			<constructor-arg value="10" />
 		</bean>
+		
+		<!-- interceptor -->
+		<mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/edit/**"/>
+				<bean class="interceptor.AuthCheckInterceptor" />
+			</mvc:interceptor>
+			<mvc:interceptor>
+				<mvc:mapping path="/mem/**"/>
+				<bean class="interceptor.AuthCheckInterceptor" />
+			</mvc:interceptor>
+		</mvc:interceptors>
+		
 		<!-- validate 또는 spring taglib에 필요한 메시지 정의 -->
 		<bean id="messageSource" 
 		class = "org.springframework.context.support.ResourceBundleMessageSource">

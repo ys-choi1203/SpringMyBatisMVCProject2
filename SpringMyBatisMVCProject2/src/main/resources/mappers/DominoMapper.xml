@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DominoMapper">
+	<select id="selectA" resultType="model.ADTO">
+		select a1,a2 from a
+	</select>
+	
+	<select id="selectB" parameterType="int" resultType="model.BDTO">
+		select a1, b1, b2 from b
+		<where>
+			<if test="value != null">
+				a1 = #{a1}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectC" parameterType="model.BDTO" resultType="model.CDTO">
+		select a1,b1,c1,c2 from c
+		where a1 = #{a1} and b1 = #{b1}
+	</select>
+</mapper>

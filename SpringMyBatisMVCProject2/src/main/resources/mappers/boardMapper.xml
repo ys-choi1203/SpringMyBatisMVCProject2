@@ -7,7 +7,8 @@
 	board_content,board_date,ip_addr,read_count
 </sql>
 <delete id="boardDelete">
-	delete from board where board_num = #{boardNum}
+	delete from board 
+	where board_num = #{boardNum} and user_id = #{userId}
 </delete>
 <update id="boardUpdate" parameterType="board">
 	update board

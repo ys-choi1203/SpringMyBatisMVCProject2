@@ -6,16 +6,53 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
 	<script type="text/javascript">
 	function modifyboard(){
 		modifyform.submit();
+	}
+	
+	function delBoard(){
+		/*
+		location.href = "qnaDelete?boardNum="+$("#boardNum").val()+
+								 "&boardPass="+$("#boardPass").val()
+		*/
+		$.ajax({
+			type : "POST",
+			url : "qnaDelete",
+			dataType : "text",
+			data : {"boardNum" : $("#boardNum").val(), 
+					"boardPass" : $("#boardPass").val()},
+			success : okDel,
+			beforeSubmit : function(){
+				if($("#boardPass").val == ""){
+					alert("비밀번호를 입력해주세요.");
+					return false;
+				}
+			}
+			error : function(){
+				alert('에러가 발생했습니다.');
+				return;
+			}
+		});
+	}
+	
+	function okDel(responseText, statusText, xhr, $form){
+		if(statusText == "success"){
+			if(responseText.trim() == "1"){
+				location.href = "qnaList";
+			}else{
+				alert('삭제 되지 않았습니다.');
+			}
+		}
 	}
 	</script>
 </head>
 <body>
 <form:form action="qnaBoardModifyPro" method="post" name="modifyform" 
 	commandName="boardCommand">
-<form:hidden path="boardNum" />
+<form:hidden path="boardNum" id="boardNum"/>
 <form:hidden path="boardName" />
 <form:hidden path="ipAddr" />
 <table cellpadding="0" cellspacing="0">
@@ -47,7 +84,8 @@
 			<div align="center">비밀번호</div>
 		</td>
 		<td>
-			<input name="boardPass" type="password">
+			<input name="boardPass" type="password" id="boardPass">
+			<div>${err }</div>
 		</td>
 	</tr>
 	
@@ -61,7 +99,7 @@
 		<td colspan="5">
 			<font size=2>
 			<a href="javascript:modifyboard()">[수정]</a>&nbsp;&nbsp;
-			<a href="qnaDelete?boardNum=${boardCommand.boardNum }">
+			<a href="javascript:delBoard()">
 			[삭제]
 			</a>&nbsp;&nbsp;
 			<a href="javascript:history.go(-1)">[뒤로]</a>&nbsp;&nbsp;

@@ -57,7 +57,7 @@ public class MemberJoinService {
 				 + "안녕하세요 '" + memberDTO.getUserId() 
 				 +"'님 가입을 환영합니다.<br />"
 				 + "아래 링크를 눌러야 가입이 완료가 됩니다. <br />"
-				 + "<a href='http://172.16.3.57:8080/SpringMybatisMVCProject/"
+				 + "<a href='http://localhost:8080/SpringMybatisMVCProject/"
 				 + "register/memberMail?num="+num+"&reciver="
 				 + memberDTO.getUserEmail() 
 				 + "&userId="+ memberDTO.getUserId() +"'>"

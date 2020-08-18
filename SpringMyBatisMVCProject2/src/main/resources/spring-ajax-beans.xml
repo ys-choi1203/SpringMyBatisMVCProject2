@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       ">
+       
+    <!-- controller -->
+	<bean class="controller.ajax.AjaxController" />
+	<bean class="controller.domino.DominoController" />
+	
+	<!-- service -->
+	<bean id="DominoService" 
+			class="service.domino.DominoService"/>
+			
+	<!-- repository -->
+	<bean id="DominoRepository"
+			class="repository.DominoRepository"/>
+</beans>

@@ -1,11 +1,14 @@
 package service.board;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 
 import command.BoardCommand;
+import model.AuthInfo;
 import model.BoardDTO;
 import repository.BoardRepository;
 
@@ -20,16 +23,20 @@ public class BoardDetailService {
 		dto = boardRepository.getBoardList(dto).get(0); 
 		model.addAttribute("boardCommand",dto);
 	}
-	public String boardDelete(Integer boardNum, Errors errors) {
+	public String boardDelete(Integer boardNum, String boardPass,
+				HttpSession session, Model model) {
+		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 		BoardDTO board = new BoardDTO();
 		board.setBoardNum(boardNum);
+		board.setUserId(authInfo.getUserId());
+
 		BoardDTO dto = boardRepository.getBoardList(board).get(0);
-		if(bcryptPasswordEncoder.matches(
-				"aaaaa",dto.getBoardPass() )) {
-			boardRepository.boardDelete(board);
-			return "redirect:/qna/qnaList";
+		if(bcryptPasswordEncoder.matches(boardPass, dto.getBoardPass())) {
+			int i = boardRepository.boardDelete(board);
+			model.addAttribute("val", i);
+			return "board/delPage";
 		}else {
-			errors.rejectValue("boardPass", "badPass");
+			model.addAttribute("err", "비밀번호가 틀렸습니다.");
 			return "board/qna_board_modify";
 		}
 	}

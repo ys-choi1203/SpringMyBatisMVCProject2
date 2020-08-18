@@ -29,8 +29,9 @@ public class BoardController {
 	
 	@RequestMapping(value="qnaDelete")
 	public String qnaDelete(@RequestParam("boardNum") Integer boardNum,
-			Errors errors) {
-		String path =  boardDetailService.boardDelete(boardNum, errors);
+							@RequestParam("boardPass") String boardPass,
+							HttpSession session, Model model) {
+		String path =  boardDetailService.boardDelete(boardNum, boardPass, session, model);
 		return path;
 	}
 	@RequestMapping(value="qnaBoardModifyPro")
