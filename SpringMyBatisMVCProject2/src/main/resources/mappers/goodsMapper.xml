@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="goodsMapper">
+<sql id="baseColumn">
+	GOODS_NUM, USER_ID, GOODS_NAME, GOODS_PRICE,
+	GOODS_CONTENT, GOODS_IMAGE, IP_ADDR,
+	GOODS_REGISTER, READ_COUNT
+</sql>
+
+<insert id="goodsInsert" parameterType="model.GoodsDTO">
+	insert into goods(<include refid="baseColumn" />)
+	values(#{goodsNum}, #{userId}, #{goodsName}, #{goodsPrice},
+			#{goodsContent}, #{goodsImage}, #{ipAddr}, sysdate, 0)
+</insert>
+
+<resultMap type="model.GoodsDTO" id="baseResultMap">
+	<id column="good_num" jdbcType="VARCHAR" property="goodsNum"/>
+	<id column="user_id" jdbcType="VARCHAR" property="userId"/>
+	<result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+	<result column="goods_price" jdbcType="BIGINT" property="goodsPrice"/>
+	<result column="goods_content" jdbcType="VARCHAR" property="goodsContent"/>
+	<result column="goods_image" jdbcType="VARCHAR" property="goodsImage"/>
+	<result column="ip_addr" jdbcType="VARCHAR" property="ipAddr"/>
+	<result column="goods_register" jdbcType="TIMESTAMP" property="goodsRegister"/>
+	<result column="read_count" jdbcType="BIGINT" property="readCount"/>
+</resultMap>
+
+<select id="getGoodsList" resultMap="baseResultMap">
+	select *
+		from(select rownum rn, <include refid="baseColumn" />
+			from(select <include refid="baseColumn" />
+				from goods
+			order by goods_register desc))
+	<where>
+		<if test="startEndPageDTO != null">
+			rn between #{startEndPageDTO.startPage}
+			and #{startEndPageDTO.endPage}
+		</if>
+	</where>
+</select>
+
+<select id="getGoodsCount" resultType="int">
+	select count(*) from goods
+</select>
+</mapper>

@@ -71,10 +71,11 @@ function fileDel(strFile, orgFile, fileSize, btn){
 			<c:forTokens items="${libraryCommand.originalFileName }" varStatus="cnt" delims="`" var="org">
 				<a href='<c:url value="/lib_Board/upload/${storeFileName[idx] }" />' >
 				${org } / ${fileSize[cnt.index] }</a>
-				<c:set var="idx"  value="${idx = idx + 1 }"/>
+				
 				<button type="button" id = "btn" onclick="fileDel('${storeFileName[idx]}', '${org }',
 											'${fileSize[cnt.index] }', this)" >삭제</button>
-				<br />
+							<br />
+				<c:set var="idx"  value="${idx = idx + 1 }"/>							
 			</c:forTokens>
 		<c:remove var="idx"/>
 		</td>

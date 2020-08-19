@@ -39,9 +39,13 @@ public class LibBoardModifyPro {
 		List<FileInfo> list = (List<FileInfo>) session.getAttribute("fileList");
 		if(list != null) {
 			for (FileInfo fi : list) {
-				lib.getOriginalFileName().replace(fi.getOriginalFileName()+"`", "");
-				lib.getStoreFileName().replace(fi.getStoreFileName()+"`", "");
-				lib.getFileSize().replace(fi.getFileSize()+"`", "");
+				lib.setOriginalFileName(
+						lib.getOriginalFileName().replace(fi.getOriginalFileName()+"`", ""));
+				lib.setStoreFileName(
+						lib.getStoreFileName().replace(fi.getStoreFileName()+"`", ""));
+				lib.setFileSize(
+						lib.getFileSize().replace(fi.getFileSize()+"`", ""));
+				
 			}
 		}
 		String originalTotal = "";

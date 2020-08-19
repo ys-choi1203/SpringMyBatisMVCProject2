@@ -12,5 +12,10 @@
 	<!-- service -->
 	<bean id = "goodsWriteService"
 			class = "service.goods.GoodsWriteService" />
+	<bean id = "goodsListService"
+			class = "service.goods.GoodsListService" />
+			
 	<!-- repository -->
+	<bean id = "goodsRepository"
+			class = "repository.GoodsRepository" />
 </beans>

@@ -22,13 +22,16 @@
 			<a href="goodsDetail?goodsNum=${dto.goodsNum }">
 			${dto.goodsNum }</a>
 		</td>
-	    <td  width=40%><img width="50" 
-	    	src="../goodsView/upload/${dto.goodsImage }" />
-	    </td>
+		<td  width=40%>
+		<c:forTokens items="${dto.goodsImage }" delims="`" var="i"
+						begin="1" end="1">
+		    <img width="50" 
+		    	src="../goodsView/upload/${i }" /><br/>
+		</c:forTokens>
+		</td>
 	    <td  width=20%>${dto.goodsName }</td>
 	    <td  width=10%>
-	    <fmt:formatNumber value="${dto.goodsPrice }" 
-	    					type="currency"/>
+	    <fmt:formatNumber value="${dto.goodsPrice }" type="currency"/>
 	    </td></tr>
 </c:forEach>
 </table>

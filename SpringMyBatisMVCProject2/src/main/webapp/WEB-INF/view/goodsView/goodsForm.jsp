@@ -8,23 +8,29 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form:form action="goodsPro" method="post" enctype="multipart/form-data" >
+<form:form action="goodsPro" method="post" 
+			enctype="multipart/form-data"
+			commandName = "goodsCommand" >
 	<table border="1">
 		<tr><td>상품번호</td>
 			<td><form:input path="goodsNum" id="goodsNum" />
+				<form:errors path="goodsNum" />
 			</td>
 		</tr>
 		<tr><td>상품명</td>
 			<td><form:input path="goodsName" id="goodsName" />
+				<form:errors path="goodsName" />
 			</td>
 		</tr>
 		<tr><td>상품가격</td>
 			<td><form:input path="goodsPrice" id="goodsPrice" />
+				<form:errors path="goodsPrice" />
 			</td>
 		</tr>
 		<tr><td>상품 설명</td>
 			<td><form:textarea rows="13" cols="56" 
 					path="goodsContent" id="goodsContent"></form:textarea>
+				<form:errors path="goodsContent" />
 			</td>
 		</tr>
 		<tr><td>상품 이미지</td>
