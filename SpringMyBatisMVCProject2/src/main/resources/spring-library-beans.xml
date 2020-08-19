@@ -18,6 +18,8 @@
        		class="service.libraryBoard.LibraryBoardDetailService" />	
        	<bean id ="libBoardModifyPro"  
        		class="service.libraryBoard.LibBoardModifyPro" />
+       	<bean id ="fileDelService"  
+       		class="service.libraryBoard.FileDelService" />
        		
        <!-- repository -->	
        <bean id="libraryBoardRepository" 

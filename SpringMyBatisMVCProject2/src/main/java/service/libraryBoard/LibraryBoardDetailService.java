@@ -22,6 +22,10 @@ public class LibraryBoardDetailService {
 		String path ="";
 		if(dto != null) {
 			model.addAttribute("libraryCommand", dto);
+			String [] storeFileName = dto.getStoreFileName().split("`");
+			String [] fileSize = dto.getFileSize().split("`");
+			model.addAttribute("storeFileName", storeFileName);
+			model.addAttribute("fileSize", fileSize);
 			path = "lib_Board/lib_board_modify";
 		}else {
 			path = "redirect:libDetail/"+boardNum;

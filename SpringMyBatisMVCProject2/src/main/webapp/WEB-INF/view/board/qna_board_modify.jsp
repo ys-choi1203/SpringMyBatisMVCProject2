@@ -30,7 +30,7 @@
 					alert("비밀번호를 입력해주세요.");
 					return false;
 				}
-			}
+			},
 			error : function(){
 				alert('에러가 발생했습니다.');
 				return;

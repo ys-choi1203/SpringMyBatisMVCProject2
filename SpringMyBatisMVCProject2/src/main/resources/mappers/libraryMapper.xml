@@ -9,11 +9,14 @@
 			board_Subject = #{boardSubject},
 		</if>
 		<if test="boardContent == null">
-			board_Content = null
+			board_Content = null,
 		</if>
 		<if test="boardContent != null">
-			board_Content = #{boardContent}
+			board_Content = #{boardContent},
 		</if>
+		original_file_name = #{originalFileName},
+		store_file_name = #{storeFileName},
+		file_size = #{fileSize}
 	</trim>	
 	where board_num = #{boardNum}
 </update>

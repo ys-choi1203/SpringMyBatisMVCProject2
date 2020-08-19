@@ -6,6 +6,30 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script>
+function fileDel(strFile, orgFile, fileSize, btn){
+	$.ajax({
+		type : "POST",
+		url : "fileDel",
+		dataType : "text",
+		data : {"storeFileName":strFile, "originalFileName":orgFile, "fileSize":fileSize},
+		error : function(){
+			$(btn).text("value","삭제 취소");
+			alert('에러가 발생했습니다.');
+			return;
+		},
+		success : function(result){
+			if(result.trim() == "1"){
+				$(btn).text("삭제 취소");
+			}else{
+				$(btn).text("삭제");
+			}
+		}
+	})
+}
+</script>
 </head>
 <body>
 <form:form action="libBoardModifyPro" method="post" name="frm" 
@@ -39,6 +63,26 @@
 			<form:textarea path="boardContent" cols="67" rows="15" />
 		</td>
 	</tr>
+	
+	<tr>
+		<td>파일</td>
+		<td>
+		<c:set var="idx" value="0"/>
+			<c:forTokens items="${libraryCommand.originalFileName }" varStatus="cnt" delims="`" var="org">
+				<a href='<c:url value="/lib_Board/upload/${storeFileName[idx] }" />' >
+				${org } / ${fileSize[cnt.index] }</a>
+				<c:set var="idx"  value="${idx = idx + 1 }"/>
+				<button type="button" id = "btn" onclick="fileDel('${storeFileName[idx]}', '${org }',
+											'${fileSize[cnt.index] }', this)" >삭제</button>
+				<br />
+			</c:forTokens>
+		<c:remove var="idx"/>
+		</td>
+	</tr>
+	<tr>
+		<td>파일추가</td>
+		<td><input type="file" name="report" multiple="multiple" /></td>
+	</tr>
 	<tr>
 		<td height="16" style="font-family:돋음; font-size:12">
 			<div align="center">비밀번호</div>
@@ -46,8 +90,7 @@
 		<td>
 			<input name="boardPass" type="password">
 		</td>
-	</tr>
-	
+	</tr>	
 	<tr bgcolor="cccccc">
 		<td colspan="2" style="height:1px;">
 		</td>

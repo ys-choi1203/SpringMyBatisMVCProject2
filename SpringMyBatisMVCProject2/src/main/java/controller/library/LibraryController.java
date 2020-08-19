@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import command.FileInfo;
 import command.LibraryCommand;
 import model.AuthInfo;
+import service.libraryBoard.FileDelService;
 import service.libraryBoard.LibBoardModifyPro;
 import service.libraryBoard.LibraryBoardDetailService;
 import service.libraryBoard.LibraryBoardListService;
@@ -32,6 +34,9 @@ public class LibraryController {
 	LibraryBoardDetailService libraryBoardDetailService;
 	@Autowired
 	LibBoardModifyPro libBoardModifyPro;
+	@Autowired
+	FileDelService fileDelService;
+	
 	@RequestMapping("libBoard")
 	public String libBoard(
 			@RequestParam(value="page", required = false) Integer page,
@@ -77,5 +82,11 @@ public class LibraryController {
 			Integer boardNum,Model model) {
 		libraryBoardDetailService.libDetail(boardNum, model);
 		return "lib_Board/lib_board_view";
+	}
+	
+	@RequestMapping("fileDel")
+	public String fileDel(FileInfo fileInfo, HttpSession session, Model model) {
+		fileDelService.fileAdd(fileInfo, session, model);
+		return "board/delPage";
 	}
 }

@@ -53,7 +53,7 @@
 		<c:set var="idx" value="0"/>
 			<c:forTokens items="${dto.originalFileName }" varStatus="cnt" delims="`" var="org">
 				<a href='<c:url value="/lib_Board/upload/${storeFileName[idx] }" />' >
-				${org } / ${fileSize[cnt.index] }</a>
+				${org } / ${fileSize[cnt.index] }<br/></a>
 				<c:set var="idx"  value="${idx = idx + 1 }"/>
 			</c:forTokens>
 		<c:remove var="idx"/>
