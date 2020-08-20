@@ -32,6 +32,11 @@
 		from(select rownum rn, <include refid="baseColumn" />
 			from(select <include refid="baseColumn" />
 				from goods
+				<where>
+					<if test="goodsNum != null">
+						goods_num = #{goodsNum}
+					</if>
+				</where>
 			order by goods_register desc))
 	<where>
 		<if test="startEndPageDTO != null">
@@ -44,4 +49,45 @@
 <select id="getGoodsCount" resultType="int">
 	select count(*) from goods
 </select>
+
+<update id="goodsCartAdd" parameterType="model.CartDTO" useGeneratedKeys="false">
+	MERGE into cart c1 
+	USING (select goods_num from goods where goods_num = #{goodsNum} ) g1 
+	ON (c1.GOODS_num = g1.GOODS_num and c1.user_id = #{userId} ) 
+	When MATCHED THEN 
+		update set c1.qty = c1.qty + 1, 
+		c1.total_price = (c1.qty + 1) * c1.goods_price
+	When NOT MATCHED THEN 
+		insert (c1.cart_num , c1.goods_num, c1.user_id, 
+				c1.goods_name, c1.goods_price, c1.goods_image, c1.qty, c1.total_price) 
+		values(NUM_SEQ.nextval, g1.goods_num,#{userId},
+				#{goodsName}, #{goodsPrice},#{goodsImage},1,#{goodsPrice})
+</update>
+
+<select id="cartList" parameterType="string" resultType="model.CartDTO">
+	select cart_num, goods_num, user_id, goods_name, 
+			goods_price, goods_image, qty, total_price
+	from cart
+	<where>
+		<if test="value != null">
+			user_id = #{userId}		
+		</if>
+		<if test="value == null">
+			user_id = null		
+		</if>
+	</where>
+</select>
+
+<delete id="goodsCartRemove" parameterType="hashMap">
+	delete from cart
+	<where>
+		<if test="cartNums != null">
+			cart_num IN
+			<foreach collection="cartNums" item="cartNum" index="index"
+					 open="(" close=")" separator=",">
+				#{cartNum }
+			</foreach>
+		</if>
+	</where>
+</delete>
 </mapper>

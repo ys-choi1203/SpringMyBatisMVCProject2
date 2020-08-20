@@ -9,7 +9,7 @@
 <script type="text/javascript">
 function checkQty(num, qty){
 	if(qty > 1){
-		location.href="goodsCartQtyDown.gd?goodsNum="+num;
+		location.href="goodsCartQtyDown?goodsNum="+num;
 	}else{
 		return false;
 	}
@@ -17,7 +17,7 @@ function checkQty(num, qty){
 </script>
 </head>
 <body>
-<form action="goodsCartRemove.gd" method="post" name="frm">
+<form action="goodsCartRemove" method="post" name="frm">
 <table align="center" width="600" border="1">
 	<tr align="center" bgcolor="orange">
 		<td>번호	</td>
@@ -40,7 +40,7 @@ function checkQty(num, qty){
 			<fmt:formatNumber value="${dto.goodsPrice }" 
 										type="currency"/>
 		</td>
-		<td><a href="goodsCartAdd.gd?goodsNum=${dto.goodsNum }"> + </a> 
+		<td><a href="goodsCartAdd?goodsNum=${dto.goodsNum }"> + </a> 
 		 ${dto.qty }
 		<a href="javascript:checkQty('${dto.goodsNum }','${dto.qty }');" > - </a></td>
 		<td align="center">
@@ -50,17 +50,18 @@ function checkQty(num, qty){
 </c:forEach>
 </table>
 </form>
+
 <table align="center" width="600" border="0">
 	<tr align="center" bgcolor="yellow">
 		<td align="right" colspan="6">
 		<font color ="gray" size="5">
 			총 결제금액 :
-			<fmt:formatNumber value="${cartList[0].sumTotalPrice }"
+			<fmt:formatNumber value="${sumTotalPrice }"
 				type="currency"/></font>
 		<font color ="black" size="5">원</font>
 		</td>
 	</tr>
 </table>
-<a href="goodsList.gd" >목록으로 가기</a>
+<a href="<c:url value="/gd/goodsList"/>" >목록으로 가기</a>
 </body>
 </html>

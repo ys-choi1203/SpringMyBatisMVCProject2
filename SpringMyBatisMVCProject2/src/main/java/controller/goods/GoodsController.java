@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import command.GoodsCommand;
+import service.goods.GoodsCartService;
+import service.goods.GoodsDetailService;
 import service.goods.GoodsListService;
 import service.goods.GoodsWriteService;
 import validator.GoodsCommandValidator;
@@ -23,6 +25,9 @@ public class GoodsController {
 	GoodsWriteService goodsWriteService;
 	@Autowired
 	GoodsListService goodsListService;
+	@Autowired
+	GoodsDetailService goodsDetailService;
+	
 	
 	@RequestMapping("goodsList")
 	public String goodsList(
@@ -49,4 +54,12 @@ public class GoodsController {
 		goodsWriteService.goodsWrite(goodsCommand, request);
 		return "redirect:/gd/goodsList";
 	}
+	
+	@RequestMapping("goodsDetail")
+	public String goodsDetail(@RequestParam(value = "goodsNum") String goodsNum,
+								Model model) {
+		goodsDetailService.goodsDetail(goodsNum, model);
+		return "goodsView/goodsDetail";
+	}
+	
 }

@@ -8,12 +8,17 @@
 	
 	<!-- controller -->
 	<bean class = "controller.goods.GoodsController" />
+	<bean class = "controller.goods.GoodsCartController" />
 	
 	<!-- service -->
 	<bean id = "goodsWriteService"
 			class = "service.goods.GoodsWriteService" />
 	<bean id = "goodsListService"
 			class = "service.goods.GoodsListService" />
+	<bean id = "goodsDetailService"
+			class = "service.goods.GoodsDetailService" />
+	<bean id = "goodsCartService"
+			class = "service.goods.GoodsCartService" />
 			
 	<!-- repository -->
 	<bean id = "goodsRepository"
