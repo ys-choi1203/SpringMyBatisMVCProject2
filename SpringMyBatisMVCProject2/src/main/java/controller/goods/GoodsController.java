@@ -62,4 +62,7 @@ public class GoodsController {
 		return "goodsView/goodsDetail";
 	}
 	
+
+	
+	
 }

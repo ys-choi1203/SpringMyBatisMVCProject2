@@ -90,4 +90,40 @@
 		</if>
 	</where>
 </delete>
+
+<update id="goodsCartQtyDown" parameterType="long">
+	update cart 
+	set qty = qty - 1,
+		total_price = (qty - 1) * goods_price
+	where cart_num = #{cartNum}
+</update>
+
+<insert id="wishAdd" parameterType="model.WishDTO" useGeneratedKeys="false">
+	MERGE into wish w
+	USING (select goods_num from goods where goods_num = #{goodsNum} ) g
+	ON (w.goods_num = g.goods_num and w.user_id = #{userId})
+	When MATCHED THEN
+		update set w.ck = 1111
+		delete where (w.goods_num = #{goodsNum} and w.user_id = #{userId})
+	When NOT MATCHED THEN
+		insert(w.goods_num, w.user_id)
+		values(#{goodsNum}, #{userId})
+</insert>
+
+<select id="wishCount" parameterType="model.WishDTO" resultType="int">
+	select count(*) from wish
+	where goods_num = #{goodsNum} and user_id = #{userId}
+</select>
+
+<select id="goodsWishList" resultType="model.GoodsDTO">
+	select <include refid="baseColumn" />
+	from goods
+	where goods_num in(select goods_num from wish
+						where user_id = #{userId})
+</select>
+
+<delete id="goodsDelete" parameterType="model.GoodsDTO">
+	delete from goods
+	where user_id = #{userId} and goods_num = #{goodsNum}
+</delete>
 </mapper>

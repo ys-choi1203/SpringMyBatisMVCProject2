@@ -19,6 +19,10 @@
 			class = "service.goods.GoodsDetailService" />
 	<bean id = "goodsCartService"
 			class = "service.goods.GoodsCartService" />
+	<bean id = "goodsWishService"
+			class = "service.goods.GoodsWishService" />
+	<bean id = "goodsDeleteService"
+			class = "service.goods.GoodsDeleteService" />
 			
 	<!-- repository -->
 	<bean id = "goodsRepository"

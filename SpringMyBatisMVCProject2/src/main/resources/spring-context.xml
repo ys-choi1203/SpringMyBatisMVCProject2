@@ -47,6 +47,10 @@
 				<mvc:mapping path="/mem/**"/>
 				<bean class="interceptor.AuthCheckInterceptor" />
 			</mvc:interceptor>
+			<mvc:interceptor>
+				<mvc:mapping path="/cart/**"/>
+				<bean class="interceptor.AuthCheckInterceptor" />
+			</mvc:interceptor>
 		</mvc:interceptors>
 		
 		<!-- validate 또는 spring taglib에 필요한 메시지 정의 -->

@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import model.AuthInfo;
@@ -15,6 +16,7 @@ import model.CartDTO;
 import model.GoodsDTO;
 import repository.GoodsRepository;
 
+@Service
 public class GoodsCartService {
 	@Autowired
 	GoodsRepository goodsRepository;
@@ -59,6 +61,10 @@ public class GoodsCartService {
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("cartNums", cs);
 		goodsRepository.goodsCartRemove(condition);
+	}
+
+	public void goodsCartQtyDown(Long cartNum) {
+		goodsRepository.goodsCartQtyDown(cartNum);
 	}
 	
 }

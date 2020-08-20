@@ -30,6 +30,30 @@ function goodsCartAdd(goodsNum){
 		}
 	});
 }
+$(function(){
+	$("#wishBtn").click(function(){
+		$.ajax({
+			type: "POST",
+			url: "../cart/goodsWishAdd",
+			dataType:"text",
+			data : {"goodsNum" : "${goods.goodsNum}"},
+			success:function(result){
+				if(result.trim() == "1"){
+					$("#wishBtn").attr("src", "../images/right_arrow.png");
+					alert("관심상품에 등록되었습니다.")
+				}else if(result.trim() == "0"){
+					$("#wishBtn").attr("src", "../images/left_arrow.png");
+					alert("관심상품에 삭제되었습니다.")
+				}
+			},
+			error: function(){
+				alert('로그인 아웃 되었습니다.\n다시 로그인 해 주세요.');
+				location.href="../main";
+				return;
+			}
+		});
+	});
+});
 </script>
 </head>
 <body>
@@ -37,6 +61,8 @@ function goodsCartAdd(goodsNum){
 	<tr bgcolor="orange">
 		<td align="right">조회수 : ${goods.readCount }
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		관심상품 <img src="../images/left_arrow.png" id="wishBtn" />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="javascript:goodsCartAdd(${goods.goodsNum });">장바구니 담기</a>
 	</tr>
 </table>
@@ -70,7 +96,7 @@ function goodsCartAdd(goodsNum){
     <tr><td colspan="2" align="center">
     		<a href="goodsList.gd">목록보기</a> |
     		<a href=
-    		"goodsDelete?goodsNum=${goods.goodsNum }&image=${goods.goodsImage }">
+    		"../cart/goodsDelete?goodsNum=${goods.goodsNum }">
     		상품 삭제</a> |
     		<a href="goodsModify?goodsNum=${goods.goodsNum }">상품 수정</a>
     	</td>

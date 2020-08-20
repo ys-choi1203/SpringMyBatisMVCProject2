@@ -6,14 +6,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
 <script type="text/javascript">
 function checkQty(num, qty){
 	if(qty > 1){
-		location.href="goodsCartQtyDown?goodsNum="+num;
+		location.href="goodsCartQtyDown?cartNum="+num;
 	}else{
 		return false;
 	}
 }
+function goodsCartAdd(goodsNum){
+	$.ajax({
+		type : "POST",
+		url : "<c:url value='/cart/goodsCartAdd' />",
+		dataType : "text",
+		data : {"goodsNum":goodsNum},	// "goodsNum=" + goodsNum
+		success : function(){
+
+					location.href = "<c:url value='/cart/goodsCartList' />";
+		},
+		error : function(){
+			alert("에러가 발생했습니다.")
+			return;
+		}
+	});
+}
+
 </script>
 </head>
 <body>
@@ -40,9 +59,9 @@ function checkQty(num, qty){
 			<fmt:formatNumber value="${dto.goodsPrice }" 
 										type="currency"/>
 		</td>
-		<td><a href="goodsCartAdd?goodsNum=${dto.goodsNum }"> + </a> 
+		<td><a href="javascript:goodsCartAdd(${dto.goodsNum })"> + </a> 
 		 ${dto.qty }
-		<a href="javascript:checkQty('${dto.goodsNum }','${dto.qty }');" > - </a></td>
+		<a href="javascript:checkQty('${dto.cartNum }','${dto.qty }');" > - </a></td>
 		<td align="center">
 		<input type="checkbox" name="delete" value="${dto.cartNum }" />
 		</td>
